@@ -11,13 +11,20 @@ import (
 
 func listFiles(ctx context.Context) {
 	variables := ctx.Value("vars").(vars)
-	err := filepath.Walk(variables.File, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		*variables.List = append(*variables.List, path)
-		return nil
-	})
+	err := filepath.Walk(
+		variables.File,
+		func(
+			path string,
+			info os.FileInfo,
+			err error,
+		) error {
+			if err != nil {
+				return err
+			}
+			*variables.List = append(*variables.List, path)
+			return nil
+		},
+	)
 
 	if err != nil {
 		log.Fatalf("error walking the path %v: %v\n", variables.List, err)
@@ -97,9 +104,14 @@ func difference(original, copies []string, source, target string) []string {
 		}
 	}
 
-	sort.Slice(differences, func(i, j int) bool {
-		return len(differences[i]) > len(differences[j])
-	})
+	sort.Slice(
+		differences,
+		func(
+			i, j int,
+		) bool {
+			return len(differences[i]) > len(differences[j])
+		},
+	)
 
 	return differences
 }
