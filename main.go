@@ -80,7 +80,8 @@ func handleSync(args Args) {
 	process(
 		context.WithValue(
 			context.Background(),
-			"arrays", processContext{
+			"arrays",
+			processContext{
 				SourceArray: &sourceList,
 				TargetArray: &targetList,
 				Source:      args.Source,
