@@ -29,7 +29,12 @@ func process(ctx context.Context) {
 	formattedTime := time.Now().Format("2006-01-02 15:04:05")
 	fmt.Println(formattedTime + ": Looking for deletion list...")
 	wg.Add(3)
-	deleteList := difference(*arrays.TargetArray, *arrays.SourceArray, arrays.Target, arrays.Source)
+	deleteList := difference(
+		*arrays.TargetArray,
+		*arrays.SourceArray,
+		arrays.Target,
+		arrays.Source,
+	)
 	if len(deleteList) > 0 {
 		fmt.Printf("Found %d files to delete...\n", len(deleteList))
 		go func() {
@@ -53,7 +58,12 @@ func process(ctx context.Context) {
 		wg.Done()
 	}
 	fmt.Println(formattedTime + ": Looking for copying list...")
-	copyList := difference(*arrays.SourceArray, *arrays.TargetArray, arrays.Source, arrays.Target)
+	copyList := difference(
+		*arrays.SourceArray,
+		*arrays.TargetArray,
+		arrays.Source,
+		arrays.Target,
+	)
 	if len(copyList) > 0 {
 		fmt.Printf("Found %d files to copy...\n", len(copyList))
 		go func() {
@@ -76,7 +86,12 @@ func process(ctx context.Context) {
 	} else {
 		wg.Done()
 	}
-	add, del := resolvableDifferences(*arrays.SourceArray, *arrays.TargetArray, arrays.Source, arrays.Target)
+	add, del := resolvableDifferences(
+		*arrays.SourceArray,
+		*arrays.TargetArray,
+		arrays.Source,
+		arrays.Target,
+	)
 	if len(add) > 0 {
 		go func() {
 			defer wg.Done()
